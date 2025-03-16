@@ -120,53 +120,146 @@ interface User {
 ## 🎨 Common UI Setups
 ### List of Objects
 ```swift
-// SwiftUI List
+// SwiftUI List of Objects
+struct User: Identifiable {
+    let id: Int
+    let name: String
+}
+
 struct UserListView: View {
-    let users = ["Alice", "Bob", "Charlie"]
+    let users = [User(id: 1, name: "Alice"), User(id: 2, name: "Bob"), User(id: 3, name: "Charlie")]
     
     var body: some View {
-        List(users, id: \ .self) { user in
-            Text(user)
+        List(users) { user in
+            Text(user.name)
         }
     }
 }
 ```
 ```tsx
-// React Native FlatList
-const users = ["Alice", "Bob", "Charlie"];
+// React Native FlatList of Objects
+interface User {
+  id: number;
+  name: string;
+}
+
+const users: User[] = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+  { id: 3, name: "Charlie" }
+];
 
 <FlatList 
   data={users} 
-  keyExtractor={(item) => item} 
-  renderItem={({ item }) => <Text>{item}</Text>} 
+  keyExtractor={(item) => item.id.toString()} 
+  renderItem={({ item }) => <Text>{item.name}</Text>} 
 />
 ```
 
-### Toggle / Switch
+## 📌 Swift Concepts to React Native
+### Protocols
 ```swift
-// SwiftUI Toggle
-@State private var isOn = false
-
-Toggle("Enable Feature", isOn: $isOn)
+// Swift Protocol
+protocol Animal {
+    var name: String { get }
+    func makeSound() -> String
+}
 ```
 ```tsx
-// React Native Switch
-const [isOn, setIsOn] = useState(false);
-
-<Switch value={isOn} onValueChange={setIsOn} />
+// React Native Interface
+interface Animal {
+    name: string;
+    makeSound(): string;
+}
 ```
 
-### Calendar
+### Enums
 ```swift
-// SwiftUI DatePicker
-DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
+// Swift Enum
+enum UserRole {
+    case admin, user, guest
+}
 ```
 ```tsx
-// React Native DatePicker (Using @react-native-community/datetimepicker)
-import DateTimePicker from '@react-native-community/datetimepicker';
-const [date, setDate] = useState(new Date());
+// React Native Enum (TS)
+enum UserRole {
+    Admin = "admin",
+    User = "user",
+    Guest = "guest"
+}
+```
 
-<DateTimePicker value={date} mode="date" onChange={(event, newDate) => setDate(newDate || date)} />
+### Error Handling
+```swift
+// Swift Error Handling
+enum MyError: Error {
+    case invalidData
+}
+
+do {
+    throw MyError.invalidData
+} catch {
+    print("Error: \(error)")
+}
+```
+```tsx
+// React Native Try/Catch
+try {
+    throw new Error("Invalid Data");
+} catch (error) {
+    console.error("Error:", error);
+}
+```
+
+### Subclassing
+```swift
+// Swift Class Inheritance
+class Animal {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+
+class Dog: Animal {
+    func bark() {
+        print("\(name) barks")
+    }
+}
+```
+```tsx
+// React Native Class Inheritance
+class Animal {
+    name: string;
+    constructor(name: string) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    bark() {
+        console.log(`${this.name} barks`);
+    }
+}
+```
+
+### Testing
+```swift
+// Swift XCTest
+import XCTest
+
+class MyTests: XCTestCase {
+    func testExample() {
+        XCTAssertEqual(1 + 1, 2)
+    }
+}
+```
+```tsx
+// React Native Jest
+import { render } from '@testing-library/react-native';
+test('example test', () => {
+    expect(1 + 1).toBe(2);
+});
 ```
 
 ## Miscellaneous
